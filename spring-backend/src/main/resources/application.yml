@@ -1,0 +1,15 @@
+server:
+  context-path: /authz
+  port: 9090
+security:
+  user:
+    name: duke
+    password: javajava
+    role: DOWNLOAD
+  oauth2:
+    client:
+      client-id: hello
+      client-secret: secret
+      scope: user
+    authorization:
+      check-token-access: isAuthenticated()
