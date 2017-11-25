@@ -10,6 +10,7 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
 	}
 }
 
@@ -17,6 +18,7 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.google.protobuf'
 
 group = 'app'
 version = '0.0.1-SNAPSHOT'
@@ -29,6 +31,7 @@ compileTestKotlin {
 }
 
 repositories {
+	jcenter()
 	mavenCentral()
 }
 
@@ -37,7 +40,17 @@ ext {
 	springCloudVersion = 'Edgware.RELEASE'
 }
 
+sourceSets {
+	main {
+		proto {
+			srcDir '../protofiles'
+		}
+	}
+	main.kotlin.srcDirs += 'src/main/generated-proto'
+}
+
 dependencies {
+	compile('org.lognet:grpc-spring-boot-starter:2.1.4')
 	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
@@ -52,4 +65,30 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.4.0'
+	}
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.7.0"
+		}
+	}
+	generateProtoTasks {
+		all().each { task ->
+			task.builtins {
+				java {
+					outputSubDir = 'generated-proto'
+				}
+			}
+			task.plugins {
+				grpc {
+					outputSubDir = 'generated-proto'
+				}
+			}
+		}
+	}
+	generatedFilesBaseDir = "${projectDir}/src/"
 }
