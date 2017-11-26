@@ -1077,11 +1077,13 @@ public final class GreeterOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rgreeter.proto\022\007greeter\"\034\n\014HelloRequest" +
-      "\022\014\n\004name\030\001 \001(\t\"!\n\rHelloResponse\022\020\n\010greet" +
-      "ing\030\002 \001(\t2C\n\007Greeter\0228\n\005Hello\022\025.greeter." +
-      "HelloRequest\032\026.greeter.HelloResponse\"\000B\022" +
-      "\n\020app.greeter.grpcb\006proto3"
+      "\n\rgreeter.proto\022\007greeter\032\034google/api/ann" +
+      "otations.proto\"\034\n\014HelloRequest\022\014\n\004name\030\001" +
+      " \001(\t\"!\n\rHelloResponse\022\020\n\010greeting\030\002 \001(\t2" +
+      "`\n\007Greeter\022U\n\005Hello\022\025.greeter.HelloReque" +
+      "st\032\026.greeter.HelloResponse\"\035\202\323\344\223\002\027\"\022/api" +
+      "/greeter/hello:\001*B\022\n\020app.greeter.grpcb\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1094,6 +1096,7 @@ public final class GreeterOuterClass {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.api.AnnotationsProto.getDescriptor(),
         }, assigner);
     internal_static_greeter_HelloRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -1107,6 +1110,12 @@ public final class GreeterOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_greeter_HelloResponse_descriptor,
         new java.lang.String[] { "Greeting", });
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(com.google.api.AnnotationsProto.http);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
+    com.google.api.AnnotationsProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

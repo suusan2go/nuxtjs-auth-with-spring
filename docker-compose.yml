@@ -1,0 +1,17 @@
+version: "3"
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: password
+    image: postgres:9.6.1-alpine
+    ports:
+      - "5432:5432"
+  backend:
+    image: java:8-jdk-alpine
+    ports:
+      - "9090:9090"
+      - "6565:6565"
+    volumes:
+      - "./spring-backend:/app"
+    working_dir: "/app"
+    command: "./gradlew bootRun"

@@ -51,6 +51,7 @@ sourceSets {
 
 dependencies {
 	compile('org.lognet:grpc-spring-boot-starter:2.1.4')
+        compile('com.google.api.grpc:googleapis-common-protos:0.0.3')
 	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
