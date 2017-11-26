@@ -12,7 +12,8 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^1.0.0-rc11"
+    "nuxt": "^1.0.0-rc11",
+    "portable-fetch": "^3.0.0"
   },
   "devDependencies": {
     "ts-loader": "^3.1.1",

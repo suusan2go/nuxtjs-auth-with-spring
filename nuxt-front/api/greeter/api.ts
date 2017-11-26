@@ -127,7 +127,7 @@ export const GreeterApiFetchParamCreator = function (configuration?: Configurati
             const localVarPath = `/api/greeter/hello`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            const localVarHeaderParameter = { "X-XSRF-TOKEN": configuration && configuration.csrfToken } as any;
+            const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             localVarHeaderParameter['Content-Type'] = 'application/json';

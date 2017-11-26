@@ -18,6 +18,7 @@
     "allowJs": true,
     "paths": {
       "~/": ["./"],
+      "~/api/*": ["./api/*"],
       "~/assets/*": ["./assets/*"],
       "~/components/*": ["./components/*"],
       "~/middleware/*": ["./middleware/*"],

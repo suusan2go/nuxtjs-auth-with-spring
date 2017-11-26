@@ -12,6 +12,7 @@
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
         <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
       </div>
+        <button @click="hello()">gRPC</button>
     </div>
   </section>
 </template>
@@ -19,10 +20,19 @@
 <script lang="ts">
 import Vue from 'vue'
 import Logo from '~/components/Logo.vue'
+import { GreeterApi } from '~/api/greeter'
+
+const greeterApi = new GreeterApi({ basePath: "http://localhost:8080"})
 
 export default Vue.extend({
   components: {
     Logo
+  },
+  methods: {
+    hello: async function() {
+      const message = await greeterApi.hello({ name: "Kenta" })
+      alert(message.greeting)
+    }
   }
 })
 </script>
