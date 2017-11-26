@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	echoEndpoint = flag.String("echo_endpoint", "localhost:9090", "endpoint of YourService")
+	echoEndpoint = flag.String("echo_endpoint", "localhost:6565", "endpoint of YourService")
 
 	swaggerDir = flag.String("swagger_dir", "./swagger", "path to the directory which contains swagger definitions")
 )
@@ -36,7 +36,7 @@ func run() error {
 	hmux.HandleFunc("/swagger/", serveSwagger)
 	hmux.Handle("/", gw)
 
-	return http.ListenAndServe(":8080", hmux)
+	return http.ListenAndServe(":8080", allowCORS(hmux))
 }
 
 func serveSwagger(w http.ResponseWriter, r *http.Request) {
@@ -58,6 +58,30 @@ func serveSwagger(w http.ResponseWriter, r *http.Request) {
 func isExist(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil
+}
+
+// allowCORS allows Cross Origin Resoruce Sharing from any origin.
+// Don't do this without consideration in production systems.
+func allowCORS(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if origin := r.Header.Get("Origin"); origin != "" {
+			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+			if r.Method == "OPTIONS" && r.Header.Get("Access-Control-Request-Method") != "" {
+				preflightHandler(w, r)
+				return
+			}
+		}
+		h.ServeHTTP(w, r)
+	})
+}
+
+func preflightHandler(w http.ResponseWriter, r *http.Request) {
+	headers := []string{"Content-Type", "Accept"}
+	w.Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
+	methods := []string{"GET", "HEAD", "POST", "PUT", "DELETE"}
+	w.Header().Set("Access-Control-Allow-Methods", strings.Join(methods, ","))
+	glog.Infof("preflight request for %s", r.URL.Path)
+	return
 }
 
 func main() {
