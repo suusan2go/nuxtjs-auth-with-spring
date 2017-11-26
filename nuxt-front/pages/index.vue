@@ -28,7 +28,7 @@ import Logo from '~/components/Logo.vue'
 import { GreeterApi } from '~/api/greeter'
 import * as portableFetch from "portable-fetch";
 
-const greeterApi = new GreeterApi({ basePath: "http://localhost:8080"})
+const greeterApi = new GreeterApi({ basePath: "http://localhost:3000"})
 
 export default Vue.extend({
   data() {
@@ -42,9 +42,7 @@ export default Vue.extend({
   },
   methods: {
     hello: async function() {
-      const message = await greeterApi.hello({ name: "Kenta" }, {
-        headers: { "Grpc-Metadata-Authorization": "Bearer <Your Header>"}
-      })
+      const message = await greeterApi.hello({ name: "Kenta" })
       alert(message.greeting)
     },
     login(username, password) {
