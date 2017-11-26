@@ -25,7 +25,7 @@ class Oauth2AuthenticationInterceptor(
             next: ServerCallHandler<ReqT, RespT>?): ServerCall.Listener<ReqT> {
         val authHeader = nullToEmpty(headers!!.get(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)))
         if (!(authHeader.startsWith("Bearer ") || authHeader.startsWith("bearer "))) {
-            return next!!.startCall(call, headers)
+            throw Status.UNAUTHENTICATED.withDescription("Token is not provided").asRuntimeException()
         }
 
         try {

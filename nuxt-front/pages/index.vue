@@ -30,7 +30,9 @@ export default Vue.extend({
   },
   methods: {
     hello: async function() {
-      const message = await greeterApi.hello({ name: "Kenta" })
+      const message = await greeterApi.hello({ name: "Kenta" }, {
+        headers: { "Grpc-Metadata-Authorization": "Bearer <Your Header>"}
+      })
       alert(message.greeting)
     }
   }
