@@ -12,7 +12,12 @@
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
         <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
       </div>
-        <button @click="hello()">gRPC</button>
+      <button @click="hello()" class="button--green">gRPC</button>
+      <div>
+        <input v-model="id" placeholder="edit me">
+        <input v-model="password" placeholder="edit me">
+        <button @click="login(id, password)" class="button--green">login</button>
+      </div>
     </div>
   </section>
 </template>
@@ -21,10 +26,17 @@
 import Vue from 'vue'
 import Logo from '~/components/Logo.vue'
 import { GreeterApi } from '~/api/greeter'
+import * as portableFetch from "portable-fetch";
 
 const greeterApi = new GreeterApi({ basePath: "http://localhost:8080"})
 
 export default Vue.extend({
+  data() {
+    return {
+      id: "",
+      password: ""
+    }
+  },
   components: {
     Logo
   },
@@ -34,6 +46,32 @@ export default Vue.extend({
         headers: { "Grpc-Metadata-Authorization": "Bearer <Your Header>"}
       })
       alert(message.greeting)
+    },
+    login(username, password) {
+      const headers = new Headers()
+      headers.append(
+    'Content-Type', 'application/json'
+      )
+  return fetch('/api/login', {
+        // クライアントのクッキーをサーバーに送信
+        credentials: 'include',
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          username,
+          password
+        })
+      })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error('Bad credentials')
+        } else {
+          return res.json()
+        }
+      })
+      .then((authUser) => {
+        //commit('SET_USER', authUser)
+      })
     }
   }
 })
