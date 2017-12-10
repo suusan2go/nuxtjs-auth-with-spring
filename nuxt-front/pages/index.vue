@@ -50,7 +50,7 @@ export default Vue.extend({
       headers.append(
     'Content-Type', 'application/json'
       )
-  return fetch('/api/login', {
+  return fetch('/login', {
         // クライアントのクッキーをサーバーに送信
         credentials: 'include',
         method: 'POST',
