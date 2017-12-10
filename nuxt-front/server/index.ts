@@ -16,9 +16,9 @@ router.use((req, res, next) => {
   next()
 })
 
-router.use('/greeter', proxy('localhost:8080', {
+router.use('/api', proxy('localhost:8080', {
   proxyReqPathResolver: function(req) {
-    return require('url').parse(req.url).path;
+    return "/api" + require('url').parse(req.url).path;
   },
   proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
     // you can update headers
@@ -45,6 +45,6 @@ router.post('/logout', (req, res) => {
 
 // Export the server middleware
 module.exports = {
-  path: '/api',
+  path: '/',
   handler: router
 }
