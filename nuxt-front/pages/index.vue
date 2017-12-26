@@ -23,56 +23,54 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Logo from '~/components/Logo.vue'
-import { GreeterApi } from '~/api/greeter'
-import * as portableFetch from "portable-fetch";
+import Vue from 'vue';
+import Logo from '~/components/Logo.vue';
+import { GreeterApi } from '~/api/greeter';
+import * as portableFetch from 'portable-fetch';
 
-const greeterApi = new GreeterApi({ basePath: "http://localhost:3000"})
+const greeterApi = new GreeterApi({ basePath: 'http://localhost:3000' });
 
-export default Vue.extend({
+export default {
   data() {
     return {
-      id: "",
-      password: ""
-    }
+      id: '',
+      password: '',
+    };
   },
   components: {
-    Logo
+    Logo,
   },
   methods: {
-    hello: async function() {
-      const message = await greeterApi.hello({ name: "Kenta" })
-      alert(message.greeting)
+    async hello() {
+      const message = await greeterApi.hello({ name: 'Kenta' });
+      alert(message.greeting);
     },
     login(username, password) {
-      const headers = new Headers()
-      headers.append(
-    'Content-Type', 'application/json'
-      )
-  return fetch('/login', {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      return fetch('/login', {
         // クライアントのクッキーをサーバーに送信
         credentials: 'include',
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
           username,
-          password
+          password,
+        }),
+      })
+        .then(res => {
+          if (res.status === 401) {
+            throw new Error('Bad credentials');
+          } else {
+            return res.json();
+          }
         })
-      })
-      .then((res) => {
-        if (res.status === 401) {
-          throw new Error('Bad credentials')
-        } else {
-          return res.json()
-        }
-      })
-      .then((authUser) => {
-        //commit('SET_USER', authUser)
-      })
-    }
-  }
-})
+        .then(authUser => {
+          //commit('SET_USER', authUser)
+        });
+    },
+  },
+};
 </script>
 
 <style>
